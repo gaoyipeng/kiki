@@ -1,0 +1,53 @@
+server:
+  port: 8101
+
+spring:
+  application:
+    name: kiki-auth
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 8
+        max-idle: 500
+        max-active: 2000
+        max-wait: 10000
+    timeout: 5000
+
+  datasource:
+    dynamic:
+      hikari:
+        connection-timeout: 30000
+        max-lifetime: 1800000
+        max-pool-size: 15
+        min-idle: 5
+        connection-test-query: select 1
+        pool-name: KikiHikariCP
+      primary: base
+      datasource:
+        base:
+          username: root
+          password: gaoyipeng
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/kiki_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+
+mybatis-plus:
+  type-aliases-package: com.sxdx.kiki.common.entity.system  #别名扫描路径
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    jdbc-type-for-null: null  #指定为null，否则再插入空值时会报“无效的列类型”错误
+  global-config:
+    banner: false  #设置为false关闭MyBatis Plus Banner打印
+
+eureka:
+  instance:
+    lease-renewal-interval-in-seconds: 20
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    instance-info-replication-interval-seconds: 30
+    registry-fetch-interval-seconds: 30
+    serviceUrl:
+      defaultZone: http://kiki:123456@localhost:8001/register/eureka/
