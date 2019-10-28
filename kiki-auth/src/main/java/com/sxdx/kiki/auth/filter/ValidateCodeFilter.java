@@ -42,9 +42,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
                 validateCode(httpServletRequest);
                 filterChain.doFilter(httpServletRequest, httpServletResponse);
             } catch (ValidateCodeException e) {
-                KikiResponse febsResponse = new KikiResponse();
+                KikiResponse kikiResponse = new KikiResponse();
                 KikiUtil.makeResponse(httpServletResponse, MediaType.APPLICATION_JSON_UTF8_VALUE,
-                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR, febsResponse.message(e.getMessage()));
+                        HttpServletResponse.SC_INTERNAL_SERVER_ERROR, kikiResponse.message(e.getMessage()));
                 log.error(e.getMessage(), e);
             }
         } else {

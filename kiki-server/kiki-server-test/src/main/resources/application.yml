@@ -14,7 +14,7 @@ spring:
         max-pool-size: 15
         min-idle: 5
         connection-test-query: select 1
-        pool-name: FebsHikariCP
+        pool-name: KikiHikariCP
       primary: base
       datasource:
         base:
@@ -23,7 +23,7 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://localhost:3306/kiki_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
   autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    exclude: com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAutoConfiguration
 
 
 eureka:

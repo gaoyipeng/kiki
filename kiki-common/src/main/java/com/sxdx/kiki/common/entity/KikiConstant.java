@@ -1,6 +1,15 @@
 package com.sxdx.kiki.common.entity;
 
 public class KikiConstant {
+
+    /**
+     * 排序规则：降序
+     */
+    public static final String ORDER_DESC = "descending";
+    /**
+     * 排序规则：升序
+     */
+    public static final String ORDER_ASC = "ascending";
     /**
      * Zuul请求头TOKEN名称（不要有空格）
      */
@@ -10,6 +19,10 @@ public class KikiConstant {
      */
     public static final String ZUUL_TOKEN_VALUE = "kiki:zuul:123456";
 
+    /**
+     * 允许下载的文件类型，根据需求自己添加（小写）
+     */
+    public static final String[] VALID_FILE_TYPE = {"xlsx", "zip"};
     /**
      * gif类型
      */

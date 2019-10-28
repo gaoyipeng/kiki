@@ -3,7 +3,7 @@ package com.sxdx.kiki.auth.controller;
 
 import com.sxdx.kiki.auth.service.ValidateCodeService;
 import com.sxdx.kiki.common.entity.KikiResponse;
-import com.sxdx.kiki.common.exception.KikiAuthException;
+import com.sxdx.kiki.common.exception.KikiException;
 import com.sxdx.kiki.common.exception.ValidateCodeException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,12 +38,12 @@ public class SecurityController {
     }
 
     @DeleteMapping("signout")
-    public KikiResponse signout(HttpServletRequest request) throws KikiAuthException {
+    public KikiResponse signout(HttpServletRequest request) throws KikiException {
         String authorization = request.getHeader("Authorization");
         String token = StringUtils.replace(authorization, "bearer ", "");
         KikiResponse kikiResponse = new KikiResponse();
         if (!consumerTokenServices.revokeToken(token)) {
-            throw new KikiAuthException("退出登录失败");
+            throw new KikiException("退出登录失败");
         }
         return kikiResponse.message("退出登录成功");
     }

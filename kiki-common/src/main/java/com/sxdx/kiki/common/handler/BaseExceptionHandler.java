@@ -1,7 +1,7 @@
 package com.sxdx.kiki.common.handler;
 
 import com.sxdx.kiki.common.entity.KikiResponse;
-import com.sxdx.kiki.common.exception.KikiAuthException;
+import com.sxdx.kiki.common.exception.KikiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -20,9 +20,9 @@ public class BaseExceptionHandler {
         return new KikiResponse().message("系统内部异常");
     }
 
-    @ExceptionHandler(value = KikiAuthException.class)
+    @ExceptionHandler(value = KikiException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public KikiResponse handleKikiAuthException(KikiAuthException e) {
+    public KikiResponse handleKikiAuthException(KikiException e) {
         log.error("系统错误", e);
         return new KikiResponse().message(e.getMessage());
     }
