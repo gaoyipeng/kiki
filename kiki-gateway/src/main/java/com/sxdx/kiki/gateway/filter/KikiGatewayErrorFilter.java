@@ -13,6 +13,9 @@ import org.springframework.util.ReflectionUtils;
 
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * 自定义Zuul异常处理
+ */
 @Slf4j
 @Component
 public class KikiGatewayErrorFilter extends SendErrorFilter {

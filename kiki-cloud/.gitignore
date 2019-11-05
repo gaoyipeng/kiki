@@ -20,6 +20,8 @@ target/
 *.ipr
 .mvn
 ./spy.log
+/log/*
+spy.log
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

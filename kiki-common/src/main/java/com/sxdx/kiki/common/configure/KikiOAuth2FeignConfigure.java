@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.util.Base64Utils;
 
 /**
- * 网关拦截到请求后为请求头添加各种token
+ * 为请求头添加各种 token
  */
 public class KikiOAuth2FeignConfigure {
     @Bean
@@ -19,7 +19,7 @@ public class KikiOAuth2FeignConfigure {
             String zuulToken = new String(Base64Utils.encode(KikiConstant.ZUUL_TOKEN_VALUE.getBytes()));
             requestTemplate.header(KikiConstant.ZUUL_TOKEN_HEADER, zuulToken);
 
-            //添加token
+            //feign 添加token
             Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
             if (details instanceof OAuth2AuthenticationDetails) {
                 String authorizationToken = ((OAuth2AuthenticationDetails) details).getTokenValue();

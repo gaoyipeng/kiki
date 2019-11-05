@@ -37,6 +37,12 @@ public class SecurityController {
         return principal;
     }
 
+    /**
+     * 退出操作
+     * @param request
+     * @return
+     * @throws KikiException
+     */
     @DeleteMapping("signout")
     public KikiResponse signout(HttpServletRequest request) throws KikiException {
         String authorization = request.getHeader("Authorization");

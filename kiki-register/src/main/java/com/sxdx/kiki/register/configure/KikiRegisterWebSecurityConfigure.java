@@ -11,7 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class KikiRegisterWebSecurityConfigure  extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().ignoringAntMatchers("/eureka/**");
+        http.csrf().ignoringAntMatchers("/eureka/**")
+        .and()
+        .authorizeRequests().antMatchers("/actuator/**").permitAll();
         super.configure(http);
     }
 }

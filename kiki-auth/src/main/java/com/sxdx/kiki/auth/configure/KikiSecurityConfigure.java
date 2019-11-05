@@ -15,6 +15,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.annotation.Resource;
 
+/*
+ * WebSecurity配置
+ */
 @Order(2)
 @EnableWebSecurity
 public class KikiSecurityConfigure extends WebSecurityConfigurerAdapter {

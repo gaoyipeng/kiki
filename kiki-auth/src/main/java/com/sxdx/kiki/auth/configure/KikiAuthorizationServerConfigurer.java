@@ -19,9 +19,18 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 认证服务器配置
+ */
 @Configuration
 @EnableAuthorizationServer
 public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
@@ -35,9 +44,16 @@ public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfig
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private KikiAuthProperties authProperties;
+    private KikiAuthProperties properties;
     @Autowired
     private KikiWebResponseExceptionTranslator exceptionTranslator;
+    @Autowired
+    private TokenStore jwtTokenStore;
+    @Autowired
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+
+    @Autowired(required = false)
+    private TokenEnhancer jwtTokenEnhancer;
 
     /**
      * 客户端从认证服务器获取令牌的时候，必须使用client_id为 kiki，client_secret为123456的标识来获取；
@@ -49,7 +65,7 @@ public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfig
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        KikiClientsProperties[] clientsArray = authProperties.getClients();
+        KikiClientsProperties[] clientsArray = properties.getClients();
         InMemoryClientDetailsServiceBuilder builder = clients.inMemory();
         if (ArrayUtils.isNotEmpty(clientsArray)) {
             for (KikiClientsProperties client : clientsArray) {
@@ -63,23 +79,28 @@ public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfig
                 builder.withClient(client.getClient())
                         .secret(passwordEncoder.encode(client.getSecret()))
                         .authorizedGrantTypes(grantTypes)
+                        .accessTokenValiditySeconds(client.getAccessTokenValiditySeconds())
+                        .refreshTokenValiditySeconds(client.getRefreshTokenValiditySeconds())
                         .scopes(client.getScope());
             }
         }
-
-        /*clients.inMemory()
-                .withClient("kiki")
-                .secret(passwordEncoder.encode("123456"))
-                .authorizedGrantTypes("password", "refresh_token")
-                .scopes("all");*/
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        endpoints.tokenStore(tokenStore())
+        //扩展token返回结果
+        if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
+            TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> enhancerList = new ArrayList<>();
+            enhancerList.add(jwtTokenEnhancer);
+            enhancerList.add(jwtAccessTokenConverter);
+            enhancerChain.setTokenEnhancers(enhancerList);
+            endpoints.tokenEnhancer(enhancerChain);
+        }
+        endpoints.tokenStore(jwtTokenStore)
+                .accessTokenConverter(jwtAccessTokenConverter)//后续JWT校验
                 .userDetailsService(userDetailService)
                 .authenticationManager(authenticationManager)
-                .tokenServices(defaultTokenServices())
                 .exceptionTranslator(exceptionTranslator);
     }
 
@@ -88,24 +109,9 @@ public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfig
      *
      * @return
      */
-    @Bean
+   /* @Bean
     public TokenStore tokenStore() {
         return new RedisTokenStore(redisConnectionFactory);
-    }
+    }*/
 
-    /**
-     * 指定了令牌的基本配置
-     *
-     * @return
-     */
-    @Primary
-    @Bean
-    public DefaultTokenServices defaultTokenServices() {
-        DefaultTokenServices tokenServices = new DefaultTokenServices();
-        tokenServices.setTokenStore(tokenStore());
-        tokenServices.setSupportRefreshToken(true);//设置为true表示开启刷新令牌的支持
-        tokenServices.setAccessTokenValiditySeconds(authProperties.getAccessTokenValiditySeconds()); //令牌有效时间
-        tokenServices.setRefreshTokenValiditySeconds(authProperties.getRefreshTokenValiditySeconds()); //刷新令牌有效时间
-        return tokenServices;
-    }
 }

@@ -1,14 +1,33 @@
-server:
+testserver:
   port: 8301
 
 
 spring:
   application:
     name: kiki-gateway
-
   autoconfigure:
     exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        username: kiki
+        password: 123456
 
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #表示将SBA客户端的所有监控端点都暴露给SBA服务端
+  endpoint:
+    health:
+      show-details: ALWAYS #表示总是展示详细的健康信息
 
 eureka:
   instance:
@@ -46,3 +65,8 @@ zuul:
   SendErrorFilter:
     error:
       disable: true  #默认的异常过滤器失效,使用 com.sxdx.kiki.gateway.filter.KikiGatewayErrorFilter 自定义处理类
+
+#解决zuul gateway经常会出现超时
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 3000

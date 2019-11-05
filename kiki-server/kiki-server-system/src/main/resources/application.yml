@@ -21,6 +21,45 @@ spring:
           password: gaoyipeng
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://localhost:3306/kiki_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        username: kiki
+        password: 123456
+  zipkin:
+    sender:
+      type: rabbit
+    sleuth:
+      sampler:
+        probability: 1
+    rabbitmq:
+      host: localhost
+      port: 5672
+      username: kiki
+      password: 123456
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #表示将SBA客户端的所有监控端点都暴露给SBA服务端
+  endpoint:
+    health:
+      show-details: ALWAYS #表示总是展示详细的健康信息
+
+feign:
+  hystrix:
+    enabled: true
+
+hystrix:
+  shareSecurityContext: true
+
 
 mybatis-plus:
   type-aliases-package: com.sxdx.kiki.common.entity.system

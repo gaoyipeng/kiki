@@ -10,6 +10,27 @@ spring:
     user:
       name: kiki
       password: 123456
+  boot:
+    admin:
+      client:
+        url: http://localhost:8401
+        username: kiki
+        password: 123456
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: "@project.description@"
+    version: "@project.version@"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*' #表示将SBA客户端的所有监控端点都暴露给SBA服务端
+  endpoint:
+    health:
+      show-details: ALWAYS #表示总是展示详细的健康信息
 
 eureka:
   instance:

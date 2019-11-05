@@ -7,12 +7,13 @@ import org.springframework.context.annotation.PropertySource;
 
 @Data
 @SpringBootConfiguration
-@PropertySource(value = {"classpath:properties/kiki-auth.properties"})
+@PropertySource(value = {"classpath:kiki-auth.properties"})
 @ConfigurationProperties(prefix = "kiki.auth")
 public class KikiAuthProperties {
+    /**
+     * client配置
+     */
     private KikiClientsProperties[] clients = {};
-    private int accessTokenValiditySeconds = 60 * 60 * 24;
-    private int refreshTokenValiditySeconds = 60 * 60 * 24 * 7;
 
     //验证码配置类
     private KikiValidateCodeProperties code = new KikiValidateCodeProperties();

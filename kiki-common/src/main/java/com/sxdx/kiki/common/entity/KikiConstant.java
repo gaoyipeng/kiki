@@ -1,5 +1,9 @@
 package com.sxdx.kiki.common.entity;
 
+
+/**
+ * 常量类
+ */
 public class KikiConstant {
 
     /**
