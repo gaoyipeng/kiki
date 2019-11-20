@@ -1,4 +1,4 @@
-testserver:
+server:
   port: 8301
 
 
@@ -6,11 +6,12 @@ spring:
   application:
     name: kiki-gateway
   autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration,
+             org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
   boot:
     admin:
       client:
-        url: http://localhost:8401
+        url: http://${kiki-monitor-admin}:8401
         username: kiki
         password: 123456
 
@@ -38,7 +39,7 @@ eureka:
     instance-info-replication-interval-seconds: 30
     registry-fetch-interval-seconds: 20
     serviceUrl:
-      defaultZone: http://kiki:123456@localhost:8001/register/eureka/
+      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
 
 zuul:
   routes:

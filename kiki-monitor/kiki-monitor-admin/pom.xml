@@ -11,7 +11,7 @@
 
     <groupId>com.sxdx</groupId>
     <artifactId>kiki-monitor-admin</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <name>kiki-monitor-admin</name>
     <description>Spring Boot Admin 监控程序</description>
 

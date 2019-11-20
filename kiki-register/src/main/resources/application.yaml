@@ -13,7 +13,7 @@ spring:
   boot:
     admin:
       client:
-        url: http://localhost:8401
+        url: http://${kiki-monitor-admin}:8401
         username: kiki
         password: 123456
 
@@ -34,7 +34,7 @@ management:
 
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${kiki-register}
   client:
     register-with-eureka: false
     fetch-registry: false

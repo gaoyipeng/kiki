@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.sxdx</groupId>
     <artifactId>kiki-gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <name>kiki-gateway</name>
     <description>Demo project for Spring Boot</description>
 
@@ -28,6 +28,11 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-zuul-adapter</artifactId>
             <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>net.logstash.logback</groupId>
+            <artifactId>logstash-logback-encoder</artifactId>
+            <version>6.1</version>
         </dependency>
     </dependencies>
 

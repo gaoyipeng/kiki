@@ -6,7 +6,7 @@ spring:
     name: kiki-auth
   redis:
     database: 0
-    host: 127.0.0.1
+    host: ${redis.url}
     port: 6379
     lettuce:
       pool:
@@ -30,11 +30,11 @@ spring:
           username: root
           password: gaoyipeng
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://localhost:3306/kiki_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
+          url: jdbc:mysql://${mysql.url}:3306/kiki_cloud_base?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8
   boot:
     admin:
       client:
-        url: http://localhost:8401
+        url: http://${kiki-monitor-admin}:8401
         username: kiki
         password: 123456
 
@@ -71,4 +71,4 @@ eureka:
     instance-info-replication-interval-seconds: 30
     registry-fetch-interval-seconds: 30
     serviceUrl:
-      defaultZone: http://kiki:123456@localhost:8001/register/eureka/
+      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
