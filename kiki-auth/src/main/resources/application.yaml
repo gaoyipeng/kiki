@@ -37,7 +37,10 @@ spring:
         url: http://${kiki-monitor-admin}:8401
         username: kiki
         password: 123456
-
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
 info:
   app:
     name: ${spring.application.name}
@@ -62,13 +65,13 @@ mybatis-plus:
   global-config:
     banner: false  #设置为false关闭MyBatis Plus Banner打印
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 30
-    serviceUrl:
-      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
+#eureka:
+#  instance:
+#    lease-renewal-interval-in-seconds: 20
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    instance-info-replication-interval-seconds: 30
+#    registry-fetch-interval-seconds: 30
+#    serviceUrl:
+#      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
