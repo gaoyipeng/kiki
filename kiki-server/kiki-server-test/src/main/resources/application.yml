@@ -49,6 +49,10 @@ spring:
         max-active: 2000
         max-wait: 10000
     timeout: 5000
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
 info:
   app:
     name: ${spring.application.name}
@@ -74,16 +78,16 @@ hystrix:
   shareSecurityContext: true
 
 
-eureka:
-  instance:
-    lease-renewal-interval-in-seconds: 20
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    instance-info-replication-interval-seconds: 30
-    registry-fetch-interval-seconds: 3
-    serviceUrl:
-      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
+#eureka:
+#  instance:
+#    lease-renewal-interval-in-seconds: 20
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    instance-info-replication-interval-seconds: 30
+#    registry-fetch-interval-seconds: 3
+#    serviceUrl:
+#      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
 security:
   oauth2:
     resource:

@@ -1,0 +1,74 @@
+server:
+  port: 8301
+spring:
+  application:
+    name: kiki-cloud-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: kiki-auth
+          uri: lb://kiki-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            - name: Hystrix
+              args:
+                name: authfallback
+                fallbackUri: forward:/fallback/kiki-auth
+        - id: kiki-server-system
+          uri: lb://kiki-server-system
+          predicates:
+            - Path=/system/**
+          filters:
+            - name: Hystrix
+              args:
+                name: systemfallback
+                fallbackUri: forward:/fallback/kiki-server-system
+        - id: kiki-server-test
+          uri: lb://kiki-server-test
+          predicates:
+            - Path=/test/**
+          filters:
+            - name: Hystrix
+              args:
+                name: testfallback
+                fallbackUri: forward:/fallback/kiki-server-test
+      default-filters:
+        - StripPrefix=1 #请求转发前，将Path的内容截去前面一位
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
+  boot:
+    admin:
+      client:
+        url: http://${kiki-monitor-admin}:8401
+        username: kiki
+        password: 123456
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
+#eureka:
+#  instance:
+#    lease-renewal-interval-in-seconds: 20
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    instance-info-replication-interval-seconds: 30
+#    registry-fetch-interval-seconds: 3
+#    serviceUrl:
+#      defaultZone: http://kiki:123456@${kiki-register}:8001/register/eureka/
+
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway

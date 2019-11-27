@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 
 
 @EnableFeignClients
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启Spring Cloud Security权限注解
 @SpringBootApplication
 @KikiCloudApplication

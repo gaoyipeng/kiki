@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableAsync
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true) //开启Spring Cloud Security权限注解
 @KikiCloudApplication
