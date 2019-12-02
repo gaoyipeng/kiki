@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: kiki-auth
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
+      config:
+        server-addr: ${nacos.url}:8001
+        group: DEFAULT_GROUP
+        prefix: kiki-auth
+        file-extension: yaml

@@ -32,7 +32,7 @@ import java.util.List;
  * 认证服务器配置
  */
 @Configuration
-@EnableAuthorizationServer
+@EnableAuthorizationServer //开启认证服务器相关配置
 public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
@@ -56,10 +56,6 @@ public class KikiAuthorizationServerConfigurer extends AuthorizationServerConfig
     private TokenEnhancer jwtTokenEnhancer;
 
     /**
-     * 客户端从认证服务器获取令牌的时候，必须使用client_id为 kiki，client_secret为123456的标识来获取；
-     * 该client_id支持password模式获取令牌，并且可以通过refresh_token来获取新的令牌；
-     * 在获取client_id为 kiki 的令牌的时候，scope只能指定为all，否则将获取失败；
-     *
      * @param clients
      * @throws Exception
      */

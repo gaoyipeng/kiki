@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: kiki-server-test
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.url}:8001
+      config:
+        server-addr: ${nacos.url}:8001
+        group: DEFAULT_GROUP
+        prefix: kiki-server-test
+        file-extension: yaml
